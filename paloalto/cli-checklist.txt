@@ -1,0 +1,23 @@
+PAN-OS 11.0.2 — NATIVE CLI ONLY (NO API, NO ANSIBLE)
+At the operational > prompt, enter commands individually:
+show system info
+show admins
+show session info
+show config running
+
+Use GUI from authorized LAN workstation: https://172.20.240.200
+Review Monitor > Logs > System and Config (if permitted).
+Use Policies > Security and Policies > NAT to review changes.
+Save a private approved configuration export if the interface permits.
+
+NO automatic commits, rule deletions, IP changes, NAT changes, or access restrictions.
+CLI commands vary with privilege and release; skip unavailable commands.
+PAN-OS does not execute Bash scripts. Continuous policy monitoring is NOT provided without an approved management/logging interface.
+
+ACCOUNT TAKEOVER RESPONSE (manual, no API):
+- At > prompt: show admins (inspect unexpected active admins).
+- GUI Monitor > Logs > Configuration: review who changed admin accounts or policies.
+- GUI Device > Administrators: inspect unexpected accounts or privilege changes.
+- If unauthorized changes appear, capture logs first; restore only reviewed changes.
+- Confirm a second admin login after changing password.
+- PAN-OS console cannot run the Debian Bash watcher; automated continuous CLI polling is NOT claimed.

@@ -1,0 +1,20 @@
+# Team 6 starter searches; run individually in Splunk Search, not as a single file.
+# Searches need matching indexed data; empty results do not prove safety.
+
+# 1. Debian authentication failures (verify sourcetype and log ingestion)
+index=* (sourcetype=linux_secure OR sourcetype=syslog OR sourcetype=auth) ("Failed password" OR "authentication failure") earliest=-30m
+| stats count by host, source, _raw
+| sort - count
+
+# 2. Successful SSH logins (verify syslog ingestion)
+index=* (sourcetype=linux_secure OR sourcetype=syslog OR sourcetype=auth) "Accepted" "ssh" earliest=-30m
+| table _time host source _raw
+
+# 3. Palo Alto config changes (requires Palo Alto config logs forwarded to Splunk)
+index=* (sourcetype=pan:config OR sourcetype=pan_config) earliest=-30m
+| table _time host admin action path result
+
+# 4. Splunk internal service errors
+index=_internal (ERROR OR FATAL) earliest=-30m
+| stats count by component, host
+| sort - count
